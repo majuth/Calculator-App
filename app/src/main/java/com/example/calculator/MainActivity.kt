@@ -2,6 +2,7 @@ package com.example.calculator
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.SpannableStringBuilder
 import android.view.View
 import android.widget.EditText
 
@@ -90,6 +91,26 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun parenthesesButton(view: View){
+        var cursorPos: Int = display.getSelectionStart();
+        var openParentheses = 0;
+        var closedParentheses = 0;
+        var textLen: Int = display.getText().length;
+
+        for ( i in 0..(cursorPos-1)){
+            if(display.getText().toString().substring(i, i+1).equals("(")){
+                openParentheses += 1;
+            }
+            if(display.getText().toString().substring(i, i+1).equals(")")) {
+                closedParentheses += 1;
+            }
+        }
+
+        if(openParentheses == closedParentheses || display.getText().toString().substring(textLen-1,textLen).equals("(")){
+            updateText(strToAdd = "(");
+        }else if(closedParentheses == openParentheses || !display.getText().toString().substring(textLen-1,textLen).equals("(")){
+            updateText(strToAdd = ")");
+        }
+        display.setSelection(cursorPos + 1);
     }
 
     fun divideButton(view: View){
@@ -121,6 +142,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun backspaceButton(view: View){
+        var cursorPos: Int = display.getSelectionStart();
+        var textLen: Int = display.getText().length;
+
+        if(cursorPos != 0 && textLen != 0){
+            var selection : SpannableStringBuilder =  display.getText() as SpannableStringBuilder;
+            selection.replace(cursorPos-1, cursorPos, "")
+            display.setText(selection);
+            display.setSelection(cursorPos-1);
+        }
 
     }
 }
