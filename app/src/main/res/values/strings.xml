@@ -23,7 +23,7 @@
     <string name="decimal">.</string>
     <string name="equals">=</string>
 
-    <string name="display">_</string>
+    <string name="display">0</string>
 
     <string name="backspace"></string>
 
