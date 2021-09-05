@@ -1,10 +1,12 @@
 package com.example.calculator
 
 import androidx.appcompat.app.AppCompatActivity
+import org.mariuszgromada.math.mxparser.*;
 import android.os.Bundle
 import android.text.SpannableStringBuilder
 import android.view.View
 import android.widget.EditText
+
 
 
 class MainActivity : AppCompatActivity() {
@@ -130,7 +132,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun plusminusButton(view: View){
-        updateText(strToAdd = "±");
+        updateText(strToAdd = "-");
     }
 
     fun decimalButton(view: View){
@@ -138,7 +140,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun equalButton(view: View){
-        updateText(strToAdd = "=");
+        var userExpression: String = display.getText().toString();
+
+        userExpression = userExpression.replace("÷".toRegex(), "/");
+        userExpression = userExpression.replace("×".toRegex(), "*");
+
+        var expre: Expression = Expression (userExpression);
+
+        var res: String = (expre.calculate()).toString();
+
+        display.setText(res);
+        display.setSelection(res.length);
+
     }
 
     fun backspaceButton(view: View){
